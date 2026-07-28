@@ -11,10 +11,8 @@ type ConnectionDetails = {
 
 // NOTE: you are expected to define the following environment variables in `.env.local`:
 const API_KEY = process.env.LIVEKIT_API_KEY || 'APIeo7ADxtYcKZZ';
-const API_SECRET =
-  process.env.LIVEKIT_API_SECRET || 'efGTzqxjYzEueQbmrgLqrOB3fKb21BJ3CqizKbqiPKAD';
-const LIVEKIT_URL =
-  process.env.LIVEKIT_URL || 'wss://porsche-agent-poc-b81q9z96.livekit.cloud';
+const API_SECRET = process.env.LIVEKIT_API_SECRET || 'efGTzqxjYzEueQbmrgLqrOB3fKb21BJ3CqizKbqiPKAD';
+const LIVEKIT_URL = process.env.LIVEKIT_URL || 'wss://porsche-agent-poc-b81q9z96.livekit.cloud';
 
 // don't cache the results
 export const revalidate = 0;
