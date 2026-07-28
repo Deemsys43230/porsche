@@ -1,0 +1,11 @@
+# --- LiveKit core + agents ---
+livekit
+livekit-api
+livekit-agents
+
+# --- LiveKit plugins: Gemini ---
+livekit-plugins-google
+livekit-plugins-deepgram
+livekit-plugins-silero
+
+python-dotenv~=1.0
