@@ -1,115 +1,109 @@
-import { useCallback } from 'react';
+import * as React from 'react';
 import { Track } from 'livekit-client';
 import {
-  type TrackReference,
-  useLocalParticipantPermissions,
+  type TrackReferenceOrPlaceholder,
+  useLocalParticipant,
   usePersistentUserChoices,
-  useSessionContext,
+  useRoomContext,
   useTrackToggle,
 } from '@livekit/components-react';
+import { usePublishPermissions } from './use-publish-permissions';
 
-const trackSourceToProtocol = (source: Track.Source) => {
-  // NOTE: this mapping avoids importing the protocol package as that leads to a significant bundle size increase
-  switch (source) {
-    case Track.Source.Camera:
-      return 1;
-    case Track.Source.Microphone:
-      return 2;
-    case Track.Source.ScreenShare:
-      return 3;
-    default:
-      return 0;
-  }
-};
-
-export interface PublishPermissions {
-  camera: boolean;
-  microphone: boolean;
-  screenShare: boolean;
-  data: boolean;
+export interface ControlBarControls {
+  microphone?: boolean;
+  screenShare?: boolean;
+  chat?: boolean;
+  camera?: boolean;
+  leave?: boolean;
 }
 
-export function usePublishPermissions(): PublishPermissions {
-  const localPermissions = useLocalParticipantPermissions();
-
-  const canPublishSource = (source: Track.Source) => {
-    return (
-      !!localPermissions?.canPublish &&
-      (localPermissions.canPublishSources.length === 0 ||
-        localPermissions.canPublishSources.includes(trackSourceToProtocol(source)))
-    );
-  };
-
-  return {
-    camera: canPublishSource(Track.Source.Camera),
-    microphone: canPublishSource(Track.Source.Microphone),
-    screenShare: canPublishSource(Track.Source.ScreenShare),
-    data: localPermissions?.canPublishData ?? false,
-  };
-}
-
-export interface UseInputControlsProps {
+export interface UseAgentControlBarProps {
+  controls?: ControlBarControls;
   saveUserChoices?: boolean;
-  onDisconnect?: () => void;
   onDeviceError?: (error: { source: Track.Source; error: Error }) => void;
 }
 
-export interface UseInputControlsReturn {
-  microphoneTrack?: TrackReference;
+export interface UseAgentControlBarReturn {
+  micTrackRef: TrackReferenceOrPlaceholder;
+  visibleControls: ControlBarControls;
   microphoneToggle: ReturnType<typeof useTrackToggle<Track.Source.Microphone>>;
   cameraToggle: ReturnType<typeof useTrackToggle<Track.Source.Camera>>;
   screenShareToggle: ReturnType<typeof useTrackToggle<Track.Source.ScreenShare>>;
+  handleDisconnect: () => void;
   handleAudioDeviceChange: (deviceId: string) => void;
   handleVideoDeviceChange: (deviceId: string) => void;
-  handleMicrophoneDeviceSelectError: (error: Error) => void;
-  handleCameraDeviceSelectError: (error: Error) => void;
 }
 
-export function useInputControls({
+export function useAgentControlBar({
+  controls,
   saveUserChoices = true,
   onDeviceError,
-}: UseInputControlsProps = {}): UseInputControlsReturn {
-  const {
-    local: { microphoneTrack },
-  } = useSessionContext();
+}: UseAgentControlBarProps = {}): UseAgentControlBarReturn {
+  const { microphoneTrack, localParticipant } = useLocalParticipant();
+  const publishPermissions = usePublishPermissions();
+  const room = useRoomContext();
 
   const microphoneToggle = useTrackToggle({
     source: Track.Source.Microphone,
     onDeviceError: (error) => onDeviceError?.({ source: Track.Source.Microphone, error }),
   });
-
   const cameraToggle = useTrackToggle({
     source: Track.Source.Camera,
     onDeviceError: (error) => onDeviceError?.({ source: Track.Source.Camera, error }),
   });
-
   const screenShareToggle = useTrackToggle({
     source: Track.Source.ScreenShare,
     onDeviceError: (error) => onDeviceError?.({ source: Track.Source.ScreenShare, error }),
   });
 
+  const micTrackRef = React.useMemo(() => {
+    return {
+      participant: localParticipant,
+      source: Track.Source.Microphone,
+      publication: microphoneTrack,
+    };
+  }, [localParticipant, microphoneTrack]);
+
+  const visibleControls = {
+    leave: true,
+    ...controls,
+  };
+
+  visibleControls.microphone ??= publishPermissions.microphone;
+  visibleControls.screenShare ??= publishPermissions.screenShare;
+  visibleControls.camera ??= publishPermissions.camera;
+  visibleControls.chat ??= publishPermissions.data;
+
   const {
     saveAudioInputEnabled,
-    saveVideoInputEnabled,
     saveAudioInputDeviceId,
+    saveVideoInputEnabled,
     saveVideoInputDeviceId,
-  } = usePersistentUserChoices({ preventSave: !saveUserChoices });
+  } = usePersistentUserChoices({
+    preventSave: !saveUserChoices,
+  });
 
-  const handleAudioDeviceChange = useCallback(
+  const handleDisconnect = React.useCallback(() => {
+    if (room) {
+      room.disconnect();
+    }
+  }, [room]);
+
+  const handleAudioDeviceChange = React.useCallback(
     (deviceId: string) => {
       saveAudioInputDeviceId(deviceId ?? 'default');
     },
     [saveAudioInputDeviceId]
   );
 
-  const handleVideoDeviceChange = useCallback(
+  const handleVideoDeviceChange = React.useCallback(
     (deviceId: string) => {
       saveVideoInputDeviceId(deviceId ?? 'default');
     },
     [saveVideoInputDeviceId]
   );
 
-  const handleToggleCamera = useCallback(
+  const handleToggleCamera = React.useCallback(
     async (enabled?: boolean) => {
       if (screenShareToggle.enabled) {
         screenShareToggle.toggle(false);
@@ -118,39 +112,31 @@ export function useInputControls({
       // persist video input enabled preference
       saveVideoInputEnabled(!cameraToggle.enabled);
     },
-    [cameraToggle, screenShareToggle, saveVideoInputEnabled]
+    [screenShareToggle.enabled, screenShareToggle.toggle, cameraToggle.toggle]
   );
 
-  const handleToggleMicrophone = useCallback(
+  const handleToggleMicrophone = React.useCallback(
     async (enabled?: boolean) => {
       await microphoneToggle.toggle(enabled);
       // persist audio input enabled preference
       saveAudioInputEnabled(!microphoneToggle.enabled);
     },
-    [microphoneToggle, saveAudioInputEnabled]
+    [microphoneToggle.enabled, microphoneToggle.toggle]
   );
 
-  const handleToggleScreenShare = useCallback(
+  const handleToggleScreenShare = React.useCallback(
     async (enabled?: boolean) => {
       if (cameraToggle.enabled) {
         cameraToggle.toggle(false);
       }
       await screenShareToggle.toggle(enabled);
     },
-    [cameraToggle, screenShareToggle]
-  );
-  const handleMicrophoneDeviceSelectError = useCallback(
-    (error: Error) => onDeviceError?.({ source: Track.Source.Microphone, error }),
-    [onDeviceError]
-  );
-
-  const handleCameraDeviceSelectError = useCallback(
-    (error: Error) => onDeviceError?.({ source: Track.Source.Camera, error }),
-    [onDeviceError]
+    [cameraToggle.enabled, cameraToggle.toggle, screenShareToggle.toggle]
   );
 
   return {
-    microphoneTrack,
+    micTrackRef,
+    visibleControls,
     cameraToggle: {
       ...cameraToggle,
       toggle: handleToggleCamera,
@@ -163,9 +149,8 @@ export function useInputControls({
       ...screenShareToggle,
       toggle: handleToggleScreenShare,
     },
+    handleDisconnect,
     handleAudioDeviceChange,
     handleVideoDeviceChange,
-    handleMicrophoneDeviceSelectError,
-    handleCameraDeviceSelectError,
   };
 }

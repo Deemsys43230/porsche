@@ -1,72 +1,26 @@
-export interface AppConfig {
-  pageTitle: string;
-  pageDescription: string;
-  companyName: string;
-
-  supportsChatInput: boolean;
-  supportsVideoInput: boolean;
-  supportsScreenShare: boolean;
-  isPreConnectBufferEnabled: boolean;
-
-  logo?: string;
-  startButtonText: string;
-  accent?: string;
-  logoDark?: string;
-  accentDark?: string;
-
-  audioVisualizerType?: 'bar' | 'wave' | 'grid' | 'radial' | 'aura';
-  audioVisualizerColor?: `#${string}`;
-  audioVisualizerColorDark?: `#${string}`;
-  audioVisualizerColorShift?: number;
-  audioVisualizerBarCount?: number;
-  audioVisualizerGridRowCount?: number;
-  audioVisualizerGridColumnCount?: number;
-  audioVisualizerRadialBarCount?: number;
-  audioVisualizerRadialRadius?: number;
-  audioVisualizerWaveLineWidth?: number;
-
-  // agent dispatch configuration
-  agentName?: string;
-
-  // LiveKit Cloud Sandbox configuration
-  sandboxId?: string;
-}
+import type { AppConfig } from './lib/types';
 
 export const APP_CONFIG_DEFAULTS: AppConfig = {
-  companyName: 'Porsche Agent',
-  pageTitle: 'Porsche Voice Agent',
-  pageDescription: 'A voice agent built with Porsche Agent',
-
-  supportsChatInput: true,
-  supportsVideoInput: true,
-  supportsScreenShare: true,
-  isPreConnectBufferEnabled: true,
-
-  logo: '/lk-logo.svg',
-  accent: '#002cf2',
-  logoDark: '/lk-logo-dark.svg',
-  accentDark: '#1fd5f9',
-  startButtonText: 'Start call',
-
-  // optional: audio visualization configuration
-  audioVisualizerType: 'aura',
-  audioVisualizerColor: '#EBD698',
-  audioVisualizerColorDark: '#EBD698',
-  // audioVisualizerColorShift: 0.3,
-  // audioVisualizerBarCount: 5,
-  // audioVisualizerType: 'radial',
-  // audioVisualizerRadialBarCount: 24,
-  // audioVisualizerRadialRadius: 100,
-  // audioVisualizerType: 'grid',
-  // audioVisualizerGridRowCount: 25,
-  // audioVisualizerGridColumnCount: 25,
-  // audioVisualizerType: 'wave',
-  // audioVisualizerWaveLineWidth: 3,
-  // audioVisualizerType: 'aura',
-
-  // agent dispatch configuration
-  agentName: process.env.AGENT_NAME ?? undefined,
-
-  // LiveKit Cloud Sandbox configuration
   sandboxId: undefined,
+  agentName: undefined,
+  supportsChatInput: true,        // ← set false to hide chat
+  supportsVideoInput: false,       // ← hide video for voice-only
+  supportsScreenShare: false,      // ← hide screenshare
+  isPreConnectBufferEnabled: true,
+  startButtonText: 'Talk to Porsche Assistant',
+  companyName: 'Porsche',
+  accent: '#D5001C',              // Porsche Red (light mode)
+  accentDark: '#FF3B30',          // Porsche Red (dark mode)
+  logo: 'https://cdn.brandfetch.io/idOSUjsXG-/w/400/h/400/theme/dark/icon.jpeg?c=1bxid64Mup7aczewSAYMX&t=1726555586571',      // Place in /public
+  logoDark: 'https://cdn.brandfetch.io/idOSUjsXG-/w/400/h/400/theme/dark/icon.jpeg?c=1bxid64Mup7aczewSAYMX&t=1726555586571',
+
+  // Trigger button
+  triggerSize: 56,
+  triggerLogoSize: 56,
+
+  // Audio visualizer
+  visualizerType: 'aura',
+  visualizerColor: undefined,       // falls back to accentDark → accent
+  visualizerColorShift: 0.05,
+  visualizerSize: 'lg',
 };
