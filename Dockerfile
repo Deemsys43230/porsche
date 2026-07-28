@@ -41,6 +41,9 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV LIVEKIT_URL=wss://porsche-agent-poc-b81q9z96.livekit.cloud
+ENV LIVEKIT_API_KEY=APIeo7ADxtYcKZZ
+ENV LIVEKIT_API_SECRET=efGTzqxjYzEueQbmrgLqrOB3fKb21BJ3CqizKbqiPKAD
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs

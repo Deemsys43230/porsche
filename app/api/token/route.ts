@@ -10,9 +10,11 @@ type ConnectionDetails = {
 };
 
 // NOTE: you are expected to define the following environment variables in `.env.local`:
-const API_KEY = process.env.LIVEKIT_API_KEY;
-const API_SECRET = process.env.LIVEKIT_API_SECRET;
-const LIVEKIT_URL = process.env.LIVEKIT_URL;
+const API_KEY = process.env.LIVEKIT_API_KEY || 'APIeo7ADxtYcKZZ';
+const API_SECRET =
+  process.env.LIVEKIT_API_SECRET || 'efGTzqxjYzEueQbmrgLqrOB3fKb21BJ3CqizKbqiPKAD';
+const LIVEKIT_URL =
+  process.env.LIVEKIT_URL || 'wss://porsche-agent-poc-b81q9z96.livekit.cloud';
 
 // don't cache the results
 export const revalidate = 0;
@@ -25,13 +27,13 @@ export async function POST(req: Request) {
   }
 
   try {
-    if (LIVEKIT_URL === undefined) {
+    if (!LIVEKIT_URL) {
       throw new Error('LIVEKIT_URL is not defined');
     }
-    if (API_KEY === undefined) {
+    if (!API_KEY) {
       throw new Error('LIVEKIT_API_KEY is not defined');
     }
-    if (API_SECRET === undefined) {
+    if (!API_SECRET) {
       throw new Error('LIVEKIT_API_SECRET is not defined');
     }
 

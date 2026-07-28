@@ -3,8 +3,8 @@ import { TokenSource } from 'livekit-client';
 import { APP_CONFIG_DEFAULTS } from '@/app-config';
 import type { AppConfig } from '@/app-config';
 
-export const CONFIG_ENDPOINT = process.env.NEXT_PUBLIC_APP_CONFIG_ENDPOINT;
-export const SANDBOX_ID = process.env.SANDBOX_ID;
+export const CONFIG_ENDPOINT = process.env.NEXT_PUBLIC_APP_CONFIG_ENDPOINT?.trim();
+export const SANDBOX_ID = process.env.SANDBOX_ID?.trim();
 
 export interface SandboxConfig {
   [key: string]:
@@ -23,7 +23,7 @@ export interface SandboxConfig {
  * https://react.dev/reference/react/cache#caveats
  */
 export const getAppConfig = cache(async (headers: Headers): Promise<AppConfig> => {
-  if (CONFIG_ENDPOINT) {
+  if (CONFIG_ENDPOINT && CONFIG_ENDPOINT !== '') {
     const sandboxId = SANDBOX_ID ?? headers.get('x-sandbox-id') ?? '';
 
     try {
@@ -97,7 +97,11 @@ export function getStyles(appConfig: AppConfig) {
  */
 export function getSandboxTokenSource(appConfig: AppConfig) {
   return TokenSource.custom(async () => {
-    const url = new URL(process.env.NEXT_PUBLIC_CONN_DETAILS_ENDPOINT!, window.location.origin);
+    const endpoint = process.env.NEXT_PUBLIC_CONN_DETAILS_ENDPOINT?.trim();
+    if (!endpoint) {
+      throw new Error('NEXT_PUBLIC_CONN_DETAILS_ENDPOINT is not defined');
+    }
+    const url = new URL(endpoint, window.location.origin);
     const sandboxId = appConfig.sandboxId ?? '';
     const roomConfig = appConfig.agentName
       ? {
