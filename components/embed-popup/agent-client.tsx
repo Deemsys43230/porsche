@@ -68,13 +68,7 @@ function AgentClient({ appConfig }: EmbedFixedAgentClientProps) {
     if (!popupOpen) {
       return;
     }
-    if (!connectionDetails) {
-      setError({
-        title: 'Error fetching connection details',
-        description: 'Please try again later',
-      });
-      return;
-    }
+
     if (room.state !== 'disconnected') {
       return;
     }
@@ -147,7 +141,8 @@ function AgentClient({ appConfig }: EmbedFixedAgentClientProps) {
                 initial={{ opacity: 1 }}
                 animate={{ opacity: error === null ? 1 : 0 }}
                 transition={{
-                  type: 'linear',
+                  type: 'tween',
+                  ease: 'linear',
                   duration: 0.2,
                 }}
                 disabled={!popupOpen}

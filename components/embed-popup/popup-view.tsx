@@ -21,7 +21,7 @@ import type { AppConfig, EmbedErrorDetails } from '@/lib/types';
 import { cn } from '@/lib/utils';
 
 const TILE_TRANSITION = {
-  type: 'spring',
+  type: 'spring' as const,
   stiffness: 675,
   damping: 75,
   mass: 1,
@@ -154,6 +154,15 @@ export const PopupView = ({
                 chatOpen && 'border-separator1 dark:border-separator2 drop-shadow-2xl'
               )}
             >
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: chatOpen ? 0 : 1, y: 0 }}
+                className="absolute -top-8 left-0 right-0 flex justify-center z-10"
+              >
+                <span className="bg-black/10 dark:bg-white/10 backdrop-blur-md text-black dark:text-white px-3 py-1 rounded-full text-[10px] font-semibold uppercase tracking-widest shadow-sm border border-black/5 dark:border-white/5">
+                  {agentState}
+                </span>
+              </motion.div>
               <AudioVisualizer agentState={agentState} audioTrack={agentAudioTrack} appConfig={appConfig} />
             </motion.div>
           )}
@@ -264,6 +273,34 @@ export const PopupView = ({
                 height={(cameraTrack || screenShareTrack)?.publication.dimensions?.height ?? 0}
                 className="aspect-square w-[70px] rounded-md bg-black object-cover"
               />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Subtitles */}
+        <AnimatePresence>
+          {!chatOpen && messages.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              className="absolute bottom-[80px] left-4 right-4 z-10 flex flex-col items-center justify-end overflow-hidden"
+            >
+              {messages.filter(m => !m.from?.isLocal).slice(-1).map((msg) => {
+                return (
+                  <motion.div
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    key={msg.id}
+                    className={cn(
+                      "w-full max-w-[90%] truncate rounded-full px-3 py-1.5 text-center text-sm shadow-sm backdrop-blur-md transition-colors",
+                      "bg-black/5 dark:bg-white/5 text-muted-foreground"
+                    )}
+                  >
+                    <span>{msg.message}</span>
+                  </motion.div>
+                );
+              })}
             </motion.div>
           )}
         </AnimatePresence>
