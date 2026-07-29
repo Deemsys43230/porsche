@@ -48,9 +48,9 @@ export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     const url = new URL(request.url);
     if (url.pathname === "/api/connection-details") {
-      const targetUrl = "https://profound-medovik-5b7976.netlify.app/api/connection-details";
+      const targetUrl = "https://agent-widget-deemsys.netlify.app/api/connection-details";
       const requestHeaders = new Headers(request.headers);
-      requestHeaders.set("host", "profound-medovik-5b7976.netlify.app");
+      requestHeaders.set("host", "agent-widget-deemsys.netlify.app");
 
       const response = await fetch(targetUrl, {
         method: request.method,

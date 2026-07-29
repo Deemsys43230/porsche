@@ -1,7 +1,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { ArrowRight, ChevronDown } from "lucide-react";
-import heroVideo from "@/assets/The new Cayenne Electric  Climbing to new heights - 1080.mp4";
+import heroVideo from "@/assets/The new Cayenne Electric Climbing to new heights - 1080.mp4";
 
 export default function Hero() {
   const ref = useRef<HTMLDivElement>(null);

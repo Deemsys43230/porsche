@@ -115,12 +115,12 @@ function RootShell({ children }: { children: ReactNode }) {
 function EmbedPopupScript() {
   useEffect(() => {
     if (typeof window === "undefined" || !document.body) return;
-    if (document.querySelector('script[data-lk-sandbox-id="profound-medovik-5b7976"]')) {
+    if (document.querySelector('script[data-lk-sandbox-id="agent-widget-deemsys"]')) {
       return;
     }
     const script = document.createElement("script");
-    script.src = "https://profound-medovik-5b7976.netlify.app/embed-popup.js";
-    script.setAttribute("data-lk-sandbox-id", "profound-medovik-5b7976");
+    script.src = "https://agent-widget-deemsys.netlify.app/embed-popup.js";
+    script.setAttribute("data-lk-sandbox-id", "agent-widget-deemsys");
     script.async = true;
     document.body.appendChild(script);
   }, []);

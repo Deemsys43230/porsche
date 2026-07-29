@@ -11,7 +11,7 @@ export default defineConfig({
     server: {
       proxy: {
         "/api/connection-details": {
-          target: "https://profound-medovik-5b7976.netlify.app",
+          target: "https://agent-widget-deemsys.netlify.app",
           changeOrigin: true,
         },
       },
