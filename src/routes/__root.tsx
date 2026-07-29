@@ -112,11 +112,28 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
+function EmbedPopupScript() {
+  useEffect(() => {
+    if (typeof window === "undefined" || !document.body) return;
+    if (document.querySelector('script[data-lk-sandbox-id="profound-medovik-5b7976"]')) {
+      return;
+    }
+    const script = document.createElement("script");
+    script.src = "https://profound-medovik-5b7976.netlify.app/embed-popup.js";
+    script.setAttribute("data-lk-sandbox-id", "profound-medovik-5b7976");
+    script.async = true;
+    document.body.appendChild(script);
+  }, []);
+
+  return null;
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
+      <EmbedPopupScript />
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
     </QueryClientProvider>

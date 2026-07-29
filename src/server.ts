@@ -46,6 +46,20 @@ function isH3SwallowedErrorBody(body: string): boolean {
 
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
+    const url = new URL(request.url);
+    if (url.pathname === "/api/connection-details") {
+      const targetUrl = "https://profound-medovik-5b7976.netlify.app/api/connection-details";
+      const requestHeaders = new Headers(request.headers);
+      requestHeaders.set("host", "profound-medovik-5b7976.netlify.app");
+
+      const response = await fetch(targetUrl, {
+        method: request.method,
+        headers: requestHeaders,
+        body: request.method !== "GET" && request.method !== "HEAD" ? await request.arrayBuffer() : undefined,
+      });
+      return response;
+    }
+
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);

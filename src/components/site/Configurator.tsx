@@ -67,7 +67,7 @@ export default function Configurator() {
                     From
                   </div>
                   <div className="text-2xl font-medium tabular-nums">
-                    €{sel.price.toLocaleString()}
+                    €{sel.price.toLocaleString("en-US")}
                   </div>
                 </div>
               </div>
@@ -90,7 +90,7 @@ export default function Configurator() {
                   >
                     <span className="font-medium">{o.name}</span>
                     <span className="text-xs tabular-nums">
-                      €{o.price.toLocaleString()}
+                      €{o.price.toLocaleString("en-US")}
                     </span>
                   </button>
                 ))}
