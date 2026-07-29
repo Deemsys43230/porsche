@@ -10,14 +10,14 @@ from typing import Optional
 CUSTOMERS = {
     "C1001": {
         "customer_id": "C1001",
-        "name": "John Miller",
+        "name": "Pedro Rosario",
         "phone": "2125550148",
         "vehicles": ["V2001"],
         "past_inquiries": [{"model": "Taycan", "date": "2026-05-14"}],
     },
     "C1002": {
         "customer_id": "C1002",
-        "name": "Mitchell Johnson",
+        "name": "Carolina Santos",
         "phone": "3105550193",
         "vehicles": ["V2002"],
         "past_inquiries": [],
