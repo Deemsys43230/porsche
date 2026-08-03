@@ -67,19 +67,19 @@ export default function Welcome() {
 
   return (
     <div className="text-fg1 mx-auto flex min-h-screen max-w-prose flex-col justify-center py-4 md:py-20">
-      <div className="h-[520px] space-y-10 px-4">
+      <div className="space-y-10 px-4">
         <div className="items-top flex justify-between">
-          <h1 className="text-fg0 text-2xl font-bold text-pretty">LiveKit Agent Embed Starter</h1>
+          <h1 className="text-fg0 text-2xl font-bold text-pretty">Deemsys AI Voice Agent</h1>
           <div className="mt-1">
             <div className="sr-only">Toggle theme:</div>
             <ThemeToggle className="w-auto" onClick={() => forceUpdate((c) => c + 1)} />
           </div>
         </div>
 
-        <p>
-          The embed agent starter example is a low-code solution to embed a LiveKit Agent into an
+        {/* <p>
+          The Deemsys AI embed script is a seamless, low-code solution to integrate the Deemsys Voice Agent into your
           existing website or web application.
-        </p>
+        </p> */}
 
         <div>
           <div className="text-fg0 mb-1 font-semibold">Select a variant</div>

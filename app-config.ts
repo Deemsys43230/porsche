@@ -3,16 +3,16 @@ import type { AppConfig } from './lib/types';
 export const APP_CONFIG_DEFAULTS: AppConfig = {
   sandboxId: undefined,
   agentName: undefined,
-  supportsChatInput: true,        // ← set false to hide chat
+  supportsChatInput: false,        // ← set false to hide chat
   supportsVideoInput: false,       // ← hide video for voice-only
   supportsScreenShare: false,      // ← hide screenshare
   isPreConnectBufferEnabled: true,
-  startButtonText: 'Talk to Porsche Assistant',
-  companyName: 'Porsche',
-  accent: '#D5001C',              // Porsche Red (light mode)
-  accentDark: '#FF3B30',          // Porsche Red (dark mode)
-  logo: 'https://cdn.brandfetch.io/idOSUjsXG-/w/400/h/400/theme/dark/icon.jpeg?c=1bxid64Mup7aczewSAYMX&t=1726555586571',      // Place in /public
-  logoDark: 'https://cdn.brandfetch.io/idOSUjsXG-/w/400/h/400/theme/dark/icon.jpeg?c=1bxid64Mup7aczewSAYMX&t=1726555586571',
+  startButtonText: 'Talk to Deemsys Assistant',
+  companyName: 'Deemsys',
+  accent: '#0284c7',              // Deemsys Blue (light mode)
+  accentDark: '#38bdf8',          // Deemsys Blue (dark mode)
+  logo: undefined,
+  logoDark: undefined,
 
   // Trigger button
   triggerSize: 56,

@@ -157,9 +157,9 @@ export const PopupView = ({
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: chatOpen ? 0 : 1, y: 0 }}
-                className="absolute -top-8 left-0 right-0 flex justify-center z-10"
+                className="absolute -top-12 left-0 right-0 flex justify-center z-10"
               >
-                <span className="bg-black/10 dark:bg-white/10 backdrop-blur-md text-black dark:text-white px-3 py-1 rounded-full text-[10px] font-semibold uppercase tracking-widest shadow-sm border border-black/5 dark:border-white/5">
+                <span className="text-fg1 px-3 py-1 text-[10px] font-bold uppercase tracking-widest">
                   {agentState}
                 </span>
               </motion.div>
@@ -287,18 +287,25 @@ export const PopupView = ({
               className="absolute bottom-[80px] left-4 right-4 z-10 flex flex-col items-center justify-end overflow-hidden"
             >
               {messages.filter(m => !m.from?.isLocal).slice(-1).map((msg) => {
+                const text = msg.message.trim();
+                const sentences = text.match(/.+?[.!?](?:\s|$)|.+$/g) || [text];
+                const lastSentence = sentences[sentences.length - 1];
+
                 return (
-                  <motion.div
-                    initial={{ opacity: 0, y: 5 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    key={msg.id}
-                    className={cn(
-                      "w-full max-w-[90%] truncate rounded-full px-3 py-1.5 text-center text-sm shadow-sm backdrop-blur-md transition-colors",
-                      "bg-black/5 dark:bg-white/5 text-muted-foreground"
-                    )}
-                  >
-                    <span>{msg.message}</span>
-                  </motion.div>
+                  <AnimatePresence mode="popLayout" key={msg.id}>
+                    <motion.div
+                      key={`${msg.id}-${sentences.length}`}
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -15 }}
+                      transition={{ duration: 0.3 }}
+                      className={cn(
+                        "w-full max-w-[90%] mx-auto left-0 right-0 px-4 py-1.5 text-center text-[15px] font-medium transition-colors text-fg1"
+                      )}
+                    >
+                      {lastSentence.trim()}
+                    </motion.div>
+                  </AnimatePresence>
                 );
               })}
             </motion.div>
