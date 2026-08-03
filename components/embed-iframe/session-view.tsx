@@ -103,23 +103,8 @@ export const SessionView = ({
                     pressed={microphoneToggle.enabled}
                     disabled={microphoneToggle.pending}
                     onPressedChange={microphoneToggle.toggle}
-                    className="peer/track group/track relative w-auto pr-3 pl-3 md:rounded-r-none md:border-r-0 md:pr-2"
-                  >
-                    <BarVisualizer
-                      barCount={3}
-                      trackRef={micTrackRef}
-                      options={{ minHeight: 5 }}
-                      className="flex h-full w-auto items-center justify-center gap-0.5"
-                    >
-                      <span
-                        className={cn([
-                          'h-full w-0.5 origin-center rounded-2xl',
-                          'group-data-[state=on]/track:bg-fg1 group-data-[state=off]/track:bg-destructive-foreground',
-                          'data-lk-muted:bg-muted',
-                        ])}
-                      ></span>
-                    </BarVisualizer>
-                  </TrackToggle>
+                    className="peer/track group/track relative w-auto px-3 md:rounded-r-none md:border-r-0"
+                  />
                   <hr className="bg-separator1 peer-data-[state=off]/track:bg-separatorSerious relative z-10 -mr-px hidden h-4 w-px md:block" />
                   <DeviceSelect
                     size="sm"
@@ -148,7 +133,7 @@ export const SessionView = ({
                   barCount={3}
                   trackRef={agentAudioTrack}
                   options={{ minHeight: 5 }}
-                  className="absolute -left-5 flex h-6 w-auto items-center justify-center gap-0.5"
+                  className="flex h-6 w-auto items-center justify-center gap-0.5"
                 >
                   <span
                     className={cn([
@@ -159,8 +144,8 @@ export const SessionView = ({
                   />
                 </BarVisualizer>
 
-                <p className="animate-text-shimmer inline-block !bg-clip-text text-sm font-semibold text-transparent">
-                  Agent listening
+                <p className="animate-text-shimmer inline-block !bg-clip-text text-sm font-semibold text-transparent capitalize">
+                  Agent {agentState}
                 </p>
               </div>
             ) : null}

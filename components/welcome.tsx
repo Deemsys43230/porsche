@@ -49,7 +49,7 @@ export default function Welcome() {
     [popupEmbedUrl, embedSandboxId]
   );
   const iframeEmbedCode = useMemo(() => {
-    return `<iframe\n  src="${iframeEmbedUrl}"\n  style="width: 320px; height: 64px;"\n></iframe>`;
+    return `<iframe\n  src="${iframeEmbedUrl}"\n  style="width: 320px; height: 56px;"\n></iframe>`;
   }, [iframeEmbedUrl]);
 
   const popupTestUrl = useMemo(() => {
@@ -158,7 +158,7 @@ export default function Welcome() {
             <div className="flex justify-center">
               <iframe
                 src={iframeEmbedUrl}
-                style={{ width: 320, height: 64 }}
+                style={{ width: 320, height: 56 }}
                 className="opacity-100 transition-opacity duration-500 [@starting-style]:opacity-0"
               />
             </div>

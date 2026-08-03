@@ -51,7 +51,12 @@ export function ActionBar({
     handleAudioDeviceChange,
     handleVideoDeviceChange,
   } = useAgentControlBar({
-    controls,
+    controls: {
+      chat: capabilities.supportsChatInput,
+      camera: capabilities.supportsVideoInput,
+      screenShare: capabilities.supportsScreenShare,
+      ...controls,
+    },
     saveUserChoices,
   });
 

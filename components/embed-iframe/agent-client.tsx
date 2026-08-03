@@ -78,7 +78,7 @@ function EmbedAgentClient({ appConfig }: AppProps) {
   }, [room, sessionStarted, connectionDetails, appConfig.isPreConnectBufferEnabled]);
 
   return (
-    <div className="bg-background relative h-16 rounded-full border px-3">
+    <div className={`relative h-14 rounded-full transition-all duration-300 ${sessionStarted || currentError !== null ? 'bg-background border px-2 shadow-sm' : ''}`}>
       <MotionWelcomeView
         key="welcome"
         appConfig={appConfig}
@@ -105,19 +105,29 @@ function EmbedAgentClient({ appConfig }: AppProps) {
         className="h-full w-full"
       >
         <div className="flex h-full items-center justify-between gap-1 gap-4 pl-3">
-          <div className="pl-3">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={appConfig.logo || '/lk-logo.svg'}
-              alt={`${appConfig.companyName || 'LiveKit'} Logo`}
-              className="block size-6 dark:hidden"
-            />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={appConfig.logoDark || '/lk-logo-dark.svg'}
-              alt={`${appConfig.companyName || 'LiveKit'} Logo`}
-              className="hidden size-6 dark:block"
-            />
+          <div className="pl-3 shrink-0">
+            {appConfig.logo ? (
+              <>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={appConfig.logo} alt={`${appConfig.companyName || 'LiveKit'} Logo`} className="block size-6 dark:hidden object-contain" />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={appConfig.logoDark || appConfig.logo} alt={`${appConfig.companyName || 'LiveKit'} Logo`} className="hidden size-6 dark:block object-contain" />
+              </>
+            ) : (
+              <div className="bg-fgAccent flex size-6 items-center justify-center rounded-full">
+                <div
+                  className="bg-bg1"
+                  style={{
+                    width: '60%',
+                    height: '60%',
+                    maskImage: 'url(/lk-logo.svg)',
+                    maskSize: 'contain',
+                    maskRepeat: 'no-repeat',
+                    maskPosition: 'center',
+                  }}
+                />
+              </div>
+            )}
           </div>
 
           <div className="flex flex-col justify-center">

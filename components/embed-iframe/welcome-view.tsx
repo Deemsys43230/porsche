@@ -13,24 +13,44 @@ export const WelcomeView = ({
   onStartCall,
   ref,
 }: React.ComponentProps<'div'> & WelcomeViewProps) => {
-  const logo = appConfig.logo || '/lk-logo.svg';
-  const logoDark = appConfig.logoDark || '/lk-logo-dark.svg';
   const companyName = appConfig.companyName || 'LiveKit';
 
   return (
     <div ref={ref} inert={disabled} className="absolute inset-0">
-      <div className="flex h-full items-center justify-between gap-4 px-3">
-        <div className="pl-3">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={logo} alt={`${companyName} Logo`} className="block size-6 dark:hidden" />
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={logoDark} alt={`${companyName} Logo`} className="hidden size-6 dark:block" />
+      <Button 
+        variant="outline" 
+        onClick={onStartCall}
+        className="group flex h-full w-full items-center justify-between gap-3 rounded-full border-2 border-primary/10 bg-primary/5 p-1.5 shadow-sm transition-all duration-500 hover:border-primary/30 hover:bg-primary/10 hover:shadow-md"
+      >
+        <div className="shrink-0 pl-0.5">
+          {appConfig.logo ? (
+            <>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={appConfig.logo} alt={`${companyName} Logo`} className="block size-7 dark:hidden object-contain" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={appConfig.logoDark || appConfig.logo} alt={`${companyName} Logo`} className="hidden size-7 dark:block object-contain" />
+            </>
+          ) : (
+            <div className="bg-fgAccent flex size-9 items-center justify-center rounded-full shadow-sm transition-transform duration-500 group-hover:scale-105 group-hover:shadow-md">
+              <div
+                className="bg-bg1"
+                style={{
+                  width: '55%',
+                  height: '55%',
+                  maskImage: 'url(/lk-logo.svg)',
+                  maskSize: 'contain',
+                  maskRepeat: 'no-repeat',
+                  maskPosition: 'center',
+                }}
+              />
+            </div>
+          )}
         </div>
 
-        <Button variant="primary" size="lg" onClick={onStartCall} className="w-48 font-mono">
+        <span className="flex-1 truncate text-center font-bold tracking-widest uppercase text-primary pr-9 text-xs transition-all duration-500">
           {appConfig.startButtonText || 'Chat with Agent'}
-        </Button>
-      </div>
+        </span>
+      </Button>
     </div>
   );
 };

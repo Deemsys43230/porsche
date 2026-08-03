@@ -136,7 +136,7 @@ export const PopupView = ({
               initial={{
                 scale: 1,
                 left: '50%',
-                top: '50%',
+                top: '44%',
                 translateX: '-50%',
                 translateY: '-50%',
                 transformOrigin: 'center top',
@@ -144,13 +144,13 @@ export const PopupView = ({
               animate={{
                 left: chatOpen && (isCameraEnabled || isScreenShareEnabled) ? '39%' : '50%',
                 scale: chatOpen ? 0.275 : 1,
-                top: chatOpen ? '12px' : '50%',
+                top: chatOpen ? '12px' : '44%',
                 translateY: chatOpen ? '0' : '-50%',
                 transformOrigin: chatOpen ? 'center top' : 'center center',
               }}
               transition={TILE_TRANSITION}
               className={cn(
-                'bg-bg1 dark:bg-bg2 pointer-events-none absolute flex aspect-square w-64 items-center justify-center rounded-2xl border border-transparent transition-colors',
+                'bg-bg1 dark:bg-bg2 pointer-events-none absolute flex aspect-square w-52 sm:w-64 items-center justify-center rounded-2xl border border-transparent transition-colors',
                 chatOpen && 'border-separator1 dark:border-separator2 drop-shadow-2xl'
               )}
             >
@@ -284,7 +284,7 @@ export const PopupView = ({
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 10 }}
-              className="absolute bottom-[80px] left-4 right-4 z-10 flex flex-col items-center justify-end overflow-hidden"
+              className="absolute bottom-[68px] left-4 right-4 z-10 flex flex-col items-center justify-end overflow-hidden"
             >
               {messages.filter(m => !m.from?.isLocal).slice(-1).map((msg) => {
                 const text = msg.message.trim();
