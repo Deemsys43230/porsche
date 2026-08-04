@@ -120,7 +120,7 @@ function EmbedAgentClient({ appConfig }: AppProps) {
                   style={{
                     width: '60%',
                     height: '60%',
-                    maskImage: 'url(/lk-logo.svg)',
+                    maskImage: `url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%20fill%3D%22currentColor%22%3E%0A%20%20%3Crect%20x%3D%2231.5%22%20y%3D%2225%22%20width%3D%224%22%20height%3D%2250%22%20rx%3D%222%22%20%2F%3E%0A%20%20%3Cpath%20d%3D%22M%2043.5%2025%20A%2025%2025%200%200%201%2043.5%2075%20L%2043.5%2071%20A%2021%2021%200%200%200%2043.5%2029%20Z%22%20%2F%3E%0A%3C%2Fsvg%3E")`,
                     maskSize: 'contain',
                     maskRepeat: 'no-repeat',
                     maskPosition: 'center',

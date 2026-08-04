@@ -50,7 +50,7 @@ interface ThemeToggleProps {
   onClick?: () => void;
 }
 
-export function ThemeToggle({ className, onClick = () => {} }: ThemeToggleProps) {
+export function ThemeToggle({ className, onClick = () => { } }: ThemeToggleProps) {
   const [theme, setTheme] = useState<ThemeMode | undefined>(undefined);
 
   useEffect(() => {

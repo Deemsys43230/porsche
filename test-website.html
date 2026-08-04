@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Sample Website</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 50px;
+            background-color: #f4f4f5;
+        }
+
+        h1 {
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Welcome to any website!</h1>
+    <p>This is a completely separate website. Below is the embedded AI Agent.</p>
+
+    <!-- ============================================== -->
+    <!-- TEST 1: THE IFRAME METHOD -->
+    <!-- (Best if you want the widget in a specific spot on the page) -->
+    <!-- ============================================== -->
+    <iframe src="http://localhost:3000/embed?theme=light"
+        style="width: 320px; height: 56px; border: none; border-radius: 9999px; margin-top: 20px;"
+        allow="microphone; camera"></iframe>
+
+
+    <!-- ============================================== -->
+    <!-- TEST 2: THE POPUP SCRIPT METHOD -->
+    <!-- (Best if you want the floating bubble in the corner) -->
+    <!-- ============================================== -->
+    <script src="http://localhost:3000/embed-popup.js" data-lk-sandbox-id="deemsys-test"></script>
+
+</body>
+
+</html>
